@@ -1,10 +1,12 @@
 extend = require('extend')
+clone = require('clone')
 contentRange = require('content-range')
 rangeParse = require('http-range-parse')
 
 defaultOptions = {
   unit: 'items'
   queryFallback: yes
+  alwaysSendRange: no
   defaultLimit: 10
   zeroBasePagination: no
 }
@@ -12,7 +14,7 @@ defaultOptions = {
 
 
 module.exports = (options = {})->
-  options = extend(options,defaultOptions)
+  options = extend(clone(defaultOptions),options)
   return (req,res,next)->
 
     range = req.get('Range')
@@ -37,15 +39,21 @@ module.exports = (options = {})->
       req.range = range
 
     res.sendRange = (data,count)->
-      if req.get('range')
+      if req.get('range') or options.alwaysSendRange
         @status(206)
-      @setHeader('Content-Range',contentRange.format({
-        offset: req.range.offset
-        limit: req.range.limit
-        count: count
-        name: req.range.unit
-      }))
-      @send(data)
+        @setHeader('Content-Range',contentRange.format({
+          offset: req.range.offset
+          limit: req.range.limit
+          count: count
+          name: req.range.unit
+        }))
+        @send(data)
+      else
+        response = {}
+        if count
+          response.count = count
+        response[options.unit] = data
+        @send(response)
 
     next()
 

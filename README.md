@@ -1,6 +1,6 @@
 # express-response-range
 
-Middleware for content-range handling with querystring fallback
+Middleware for handling content-range with querystring fallback.
 
 [![Build Status](https://travis-ci.org/jakubknejzlik/express-response-range.svg?branch=master)](https://travis-ci.org/jakubknejzlik/express-response-range)
 

@@ -1,6 +1,6 @@
 {
   "name": "express-response-range",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "dependencies": {
     "content-range": "^0.2.0",
     "extend": "^3.0.0",

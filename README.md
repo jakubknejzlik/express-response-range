@@ -32,7 +32,7 @@ Middleware for handling content-range with querystring fallback.
 
 ## constructor([options])
 
-Returns middleware handling range header.
+Returns middleware handling range header. For every call the `req.range` is created from request headers/querystring. 
 
 * `options`
     * `unit` - name of unit (default `items`)

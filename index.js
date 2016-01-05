@@ -58,14 +58,17 @@
       }
       res.sendRange = function(data, count) {
         var response;
-        if (req.get('range') || options.alwaysSendRange) {
-          this.status(206);
-          this.setHeader('Content-Range', contentRange.format({
-            offset: req.range.offset,
-            limit: req.range.limit,
-            count: count,
-            name: req.range.unit
-          }));
+        range = req.get('range');
+        if (range || options.alwaysSendRange) {
+          if (range) {
+            this.status(206);
+            this.setHeader('Content-Range', contentRange.format({
+              offset: req.range.offset,
+              limit: req.range.limit,
+              count: count,
+              name: req.range.unit
+            }));
+          }
           return this.send(data);
         } else {
           response = {};

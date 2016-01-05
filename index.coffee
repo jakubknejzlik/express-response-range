@@ -39,14 +39,16 @@ module.exports = (options = {})->
       req.range = range
 
     res.sendRange = (data,count)->
-      if req.get('range') or options.alwaysSendRange
-        @status(206)
-        @setHeader('Content-Range',contentRange.format({
-          offset: req.range.offset
-          limit: req.range.limit
-          count: count
-          name: req.range.unit
-        }))
+      range = req.get('range')
+      if range or options.alwaysSendRange
+        if range
+          @status(206)
+          @setHeader('Content-Range',contentRange.format({
+            offset: req.range.offset
+            limit: req.range.limit
+            count: count
+            name: req.range.unit
+          }))
         @send(data)
       else
         response = {}

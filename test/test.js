@@ -61,8 +61,8 @@
       }).end(done);
     });
     return it('should get valid content/range/length for query', function(done) {
-      return testAlwaysRange.get('/known-length?limit=2&page=2').expect(206).expect(function(res) {
-        assert.equal(res.headers['content-range'], 'items 2-3/2');
+      return testAlwaysRange.get('/known-length?limit=2&page=2').expect(200).expect(function(res) {
+        assert.equal(res.headers['content-range'], void 0);
         return assert.deepEqual(res.body, data.slice(2, 4));
       }).end(done);
     });

@@ -66,9 +66,9 @@ describe('express-content-range',()->
 
   it('should get valid content/range/length for query',(done)->
     testAlwaysRange.get('/known-length?limit=2&page=2')
-    .expect(206)
+    .expect(200)
     .expect((res)->
-      assert.equal(res.headers['content-range'],'items 2-3/2')
+      assert.equal(res.headers['content-range'],undefined)
       assert.deepEqual(res.body,data.slice(2,4))
     ).end(done)
   )

@@ -27,9 +27,9 @@ module.exports = (options = {})->
     else if options.queryFallback
       range = {limit:options.defaultLimit,offset:0,unit:options.unit}
       if req.query.limit
-        range.limit = parseInt(req.query.limit)
+        range.limit = Math.max(parseInt(req.query.limit),0)
       if req.query.offset
-        range.offset = parseInt(req.query.offset)
+        range.offset = Math.max(parseInt(req.query.offset),0)
       if req.query.page
         page = parseInt(req.query.page)
         if not options.zeroBasePagination

@@ -30,7 +30,7 @@
         parsedRange = rangeParse(range);
         req.range = {
           offset: parsedRange.first,
-          limit: parsedRange.last - parsedRange.first + 1,
+          limit: (parsedRange.last - parsedRange.first + 1) || options.defaultLimit,
           unit: parsedRange.unit
         };
         res.setHeader('Accept-Ranges', options.unit);
@@ -64,7 +64,7 @@
             this.status(206);
             this.setHeader('Content-Range', contentRange.format({
               offset: req.range.offset,
-              limit: req.range.limit,
+              limit: data.length || req.range.limit,
               count: count,
               name: req.range.unit
             }));

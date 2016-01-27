@@ -20,13 +20,13 @@ module.exports = (options = {})->
     range = req.get('Range')
     if range
       parsedRange = rangeParse(range)
-      req.range = {offset:parsedRange.first,limit:parsedRange.last - parsedRange.first + 1,unit:parsedRange.unit}
+      req.range = {offset:parsedRange.first,limit:(parsedRange.last - parsedRange.first + 1) or options.defaultLimit,unit:parsedRange.unit}
 
       res.setHeader('Accept-Ranges',options.unit)
 
     else if options.queryFallback
       range = {limit:options.defaultLimit,offset:0,unit:options.unit}
-      if req.query.limit
+      if parseInt(req.query.limit)
         range.limit = parseInt(req.query.limit)
       if req.query.offset
         range.offset = parseInt(req.query.offset)
@@ -45,7 +45,7 @@ module.exports = (options = {})->
           @status(206)
           @setHeader('Content-Range',contentRange.format({
             offset: req.range.offset
-            limit: req.range.limit
+            limit: data.length or req.range.limit
             count: count
             name: req.range.unit
           }))

@@ -20,7 +20,7 @@ module.exports = (options)->
   )
   app.get('/known-length',(req,res,next)->
     slicedData = data.slice(req.range.offset,req.range.offset + req.range.limit)
-    res.sendRange(slicedData,slicedData.length)
+    res.sendRange(slicedData,data.length)
   )
 
   return app

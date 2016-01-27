@@ -25,7 +25,7 @@
     app.get('/known-length', function(req, res, next) {
       var slicedData;
       slicedData = data.slice(req.range.offset, req.range.offset + req.range.limit);
-      return res.sendRange(slicedData, slicedData.length);
+      return res.sendRange(slicedData, data.length);
     });
     return app;
   };

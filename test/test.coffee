@@ -51,8 +51,27 @@ describe('express-content-range',()->
     .set('Range','items=0-3')
     .expect(206)
     .expect((res)->
-      assert.equal(res.headers['content-range'],'items 0-3/4')
+      assert.equal(res.headers['content-range'],'items 0-3/9')
       assert.deepEqual(res.body,data.slice(0,4))
+    ).end(done)
+  )
+  it('should get valid content/range/length',(done)->
+    test.get('/known-length')
+    .set('Range','items=0-')
+    .expect(206)
+    .expect((res)->
+      assert.equal(res.headers['content-range'],'items 0-8/9')
+      assert.deepEqual(res.body,data.slice(0,9))
+    ).end(done)
+  )
+
+  it('should get valid content/range/length',(done)->
+    test.get('/known-length')
+    .set('Range','items=5-')
+    .expect(206)
+    .expect((res)->
+      assert.equal(res.headers['content-range'],'items 5-8/9')
+      assert.deepEqual(res.body,data.slice(5,9))
     ).end(done)
   )
 

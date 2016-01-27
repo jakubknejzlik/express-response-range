@@ -30,7 +30,7 @@
         parsedRange = rangeParse(range);
         req.range = {
           offset: parsedRange.first,
-          limit: (parsedRange.last - parsedRange.first + 1) || options.defaultLimit,
+          limit: parsedRange.last - parsedRange.first + 1,
           unit: parsedRange.unit
         };
         res.setHeader('Accept-Ranges', options.unit);
@@ -40,11 +40,11 @@
           offset: 0,
           unit: options.unit
         };
-        if (parseInt(req.query.limit)) {
-          range.limit = parseInt(req.query.limit);
+        if (req.query.limit) {
+          range.limit = Math.max(parseInt(req.query.limit), 0);
         }
         if (req.query.offset) {
-          range.offset = parseInt(req.query.offset);
+          range.offset = Math.max(parseInt(req.query.offset), 0);
         }
         if (req.query.page) {
           page = parseInt(req.query.page);
@@ -64,7 +64,7 @@
             this.status(206);
             this.setHeader('Content-Range', contentRange.format({
               offset: req.range.offset,
-              limit: data.length || req.range.limit,
+              limit: req.range.limit,
               count: count,
               name: req.range.unit
             }));

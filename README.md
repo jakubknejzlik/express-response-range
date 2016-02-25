@@ -8,7 +8,7 @@ Middleware for handling content-range with querystring fallback.
 
 ```
  express = require('express')
- expressResponseError = require('express-response-error')
+ responseRange = require('express-response-range')
 
 
  var data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];

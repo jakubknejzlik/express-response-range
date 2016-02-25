@@ -7,8 +7,8 @@ Middleware for handling content-range with querystring fallback.
 # Example
 
 ```
- express = require('express')
- responseRange = require('express-response-range')
+ var express = require('express')
+ var responseRange = require('express-response-range')
 
 
  var data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
@@ -19,8 +19,7 @@ Middleware for handling content-range with querystring fallback.
  app.use(responseRange(options)); // creates req.range and expose res.sendRange(data[,count]) method
     
  app.get('/', function(req, res, next) {
-  var slicedData;
-  slicedData = data.slice(req.range.offset, req.range.offset + req.range.limit);
+  var slicedData = data.slice(req.range.offset, req.range.offset + req.range.limit);
   return res.sendRange(slicedData,slicedData.length); // send data and sets 206 status if request Range header is set 
  });
 

@@ -12,6 +12,7 @@
 
   testAlwaysRange = supertest(require('./test-app')({
     defaultLimit: 20,
+    maxLimit: 21,
     alwaysSendRange: true
   }));
 
@@ -49,22 +50,22 @@
         return assert.deepEqual(res.body.items, data.slice(2, 4));
       }).end(done);
     });
-    it('should get valid content/range/length', function(done) {
+    it('should get valid content/range/length for closed interval', function(done) {
       return test.get('/known-length').set('Range', 'items=0-3').expect(206).expect(function(res) {
-        assert.equal(res.headers['content-range'], 'items 0-3/9');
+        assert.equal(res.headers['content-range'], 'items 0-3/30');
         return assert.deepEqual(res.body, data.slice(0, 4));
       }).end(done);
     });
-    it('should get valid content/range/length', function(done) {
+    it('should get valid content/range/length for opened interval', function(done) {
       return test.get('/known-length').set('Range', 'items=0-').expect(206).expect(function(res) {
-        assert.equal(res.headers['content-range'], 'items 0-8/9');
-        return assert.deepEqual(res.body, data.slice(0, 9));
+        assert.equal(res.headers['content-range'], 'items 0-9/30');
+        return assert.deepEqual(res.body, data.slice(0, 10));
       }).end(done);
     });
-    it('should get valid content/range/length', function(done) {
+    it('should get valid content/range/length for opened offset interval', function(done) {
       return test.get('/known-length').set('Range', 'items=5-').expect(206).expect(function(res) {
-        assert.equal(res.headers['content-range'], 'items 5-8/9');
-        return assert.deepEqual(res.body, data.slice(5, 9));
+        assert.equal(res.headers['content-range'], 'items 5-14/30');
+        return assert.deepEqual(res.body, data.slice(5, 15));
       }).end(done);
     });
     it('should get valid content/range/length for query', function(done) {
@@ -72,11 +73,17 @@
         return assert.deepEqual(res.body.items, data.slice(2, 4));
       }).end(done);
     });
-    return it('should get valid content/range/length for query', function(done) {
+    it('should get valid content/range/length for always query', function() {
       return testAlwaysRange.get('/known-length?limit=2&page=2').expect(200).expect(function(res) {
         assert.equal(res.headers['content-range'], void 0);
         return assert.deepEqual(res.body, data.slice(2, 4));
-      }).end(done);
+      });
+    });
+    return it('should respect max limit', function() {
+      return testAlwaysRange.get('/known-length?limit=100&offset=2').expect(200).expect(function(res) {
+        assert.equal(res.headers['content-range'], void 0);
+        return assert.deepEqual(res.body, data.slice(2, 23));
+      });
     });
   });
 

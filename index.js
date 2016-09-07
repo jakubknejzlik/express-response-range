@@ -43,6 +43,9 @@
         if (req.query.limit) {
           range.limit = Math.max(parseInt(req.query.limit), 0);
         }
+        if (options.maxLimit && parseInt(options.maxLimit)) {
+          range.limit = Math.min(parseInt(options.maxLimit), range.limit);
+        }
         if (req.query.offset) {
           range.offset = Math.max(parseInt(req.query.offset), 0);
         }

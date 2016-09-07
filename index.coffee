@@ -28,6 +28,8 @@ module.exports = (options = {})->
       range = {limit:options.defaultLimit,offset:0,unit:options.unit}
       if req.query.limit
         range.limit = Math.max(parseInt(req.query.limit),0)
+      if options.maxLimit and parseInt(options.maxLimit)
+        range.limit = Math.min(parseInt(options.maxLimit),range.limit)
       if req.query.offset
         range.offset = Math.max(parseInt(req.query.offset),0)
       if req.query.page

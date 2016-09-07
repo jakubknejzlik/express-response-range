@@ -38,6 +38,7 @@ Returns middleware handling range header. For every call the `req.range` is crea
     * `queryFallback` - enable query fallback for requests without range (default `true`)
     * `alwaysSendRange` - send range response (plain payload) for non-ranged request (default `false`)
     * `defaultLimit` - default limit for response (default `10`)
+    * `maxLimit` - max limit for response (default none)
     * `zeroBasePagination` - page parameter starts from 0 (default `false`)
     
 ## res.sendRange(data[,count])

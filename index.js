@@ -63,7 +63,7 @@
         var response;
         range = req.get('range');
         if (range || options.alwaysSendRange) {
-          if (range) {
+          if (req.range) {
             this.status(206);
             this.setHeader('Content-Range', contentRange.format({
               offset: req.range.offset,

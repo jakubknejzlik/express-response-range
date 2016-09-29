@@ -43,7 +43,7 @@ module.exports = (options = {})->
     res.sendRange = (data,count)->
       range = req.get('range')
       if range or options.alwaysSendRange
-        if range
+        if req.range
           @status(206)
           @setHeader('Content-Range',contentRange.format({
             offset: req.range.offset

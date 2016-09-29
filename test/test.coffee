@@ -85,18 +85,18 @@ describe('express-content-range',()->
 
   it('should get valid content/range/length for always query',()->
     testAlwaysRange.get('/known-length?limit=2&page=2')
-    .expect(200)
+    .expect(206)
     .expect((res)->
-      assert.equal(res.headers['content-range'],undefined)
+      assert.ok(res.headers['content-range'])
       assert.deepEqual(res.body,data.slice(2,4))
     )
   )
 
   it('should respect max limit',()->
     testAlwaysRange.get('/known-length?limit=100&offset=2')
-    .expect(200)
+    .expect(206)
     .expect((res)->
-      assert.equal(res.headers['content-range'],undefined)
+      assert.ok(res.headers['content-range'])
       assert.deepEqual(res.body,data.slice(2,23))
     )
   )

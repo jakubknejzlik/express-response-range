@@ -30,7 +30,8 @@
         parsedRange = rangeParse(range);
         req.range = {
           offset: parsedRange.first,
-          limit: (parsedRange.last - parsedRange.first + 1) || options.defaultLimit,
+          limit:
+            parsedRange.last - parsedRange.first + 1 || options.defaultLimit,
           unit: parsedRange.unit
         };
         res.setHeader('Accept-Ranges', options.unit);
@@ -57,6 +58,10 @@
           }
           range.offset = range.limit * page;
         }
+        range.page =
+          Math.ceil(range.offset / range.limit) + !options.zeroBasePagination
+            ? 1
+            : 0;
         req.range = range;
       }
       res.sendRange = function(data, count) {
@@ -65,12 +70,15 @@
         if (range || options.alwaysSendRange) {
           if (req.range) {
             this.status(206);
-            this.setHeader('Content-Range', contentRange.format({
-              offset: req.range.offset,
-              limit: data.length || req.range.limit,
-              count: count,
-              name: req.range.unit
-            }));
+            this.setHeader(
+              'Content-Range',
+              contentRange.format({
+                offset: req.range.offset,
+                limit: data.length || req.range.limit,
+                count: count,
+                name: req.range.unit
+              })
+            );
           }
           return this.send(data);
         } else {
@@ -79,11 +87,12 @@
             response.count = count;
           }
           response[options.unit] = data;
+          response.offset = req.range.offset;
+          response.page = req.range.page;
           return this.send(response);
         }
       };
       return next();
     };
   };
-
-}).call(this);
+}.call(this));

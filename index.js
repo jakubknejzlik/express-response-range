@@ -50,7 +50,7 @@
         if (req.query.offset) {
           range.offset = Math.max(parseInt(req.query.offset), 0);
         }
-        if (req.query.page) {
+        if (typeof req.query.page) {
           page = parseInt(req.query.page);
           if (!options.zeroBasePagination) {
             page = page - 1;
@@ -59,9 +59,9 @@
           range.offset = range.limit * page;
         }
         range.page =
-          Math.ceil(range.offset / range.limit) + options.zeroBasePagination
-            ? 0
-            : 1;
+          Math.floor(range.offset / range.limit) + !options.zeroBasePagination
+            ? 1
+            : 0;
         req.range = range;
       }
       res.sendRange = function(data, count) {

@@ -59,9 +59,9 @@
           range.offset = range.limit * page;
         }
         range.page =
-          Math.ceil(range.offset / range.limit) + !options.zeroBasePagination
-            ? 1
-            : 0;
+          Math.ceil(range.offset / range.limit) + options.zeroBasePagination
+            ? 0
+            : 1;
         req.range = range;
       }
       res.sendRange = function(data, count) {

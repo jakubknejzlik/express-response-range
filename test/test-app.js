@@ -8,7 +8,38 @@
 
   contentRange = require('content-range');
 
-  data = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29];
+  data = [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    15,
+    16,
+    17,
+    18,
+    19,
+    20,
+    21,
+    22,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    29
+  ];
 
   module.exports = function(options) {
     var app;
@@ -19,17 +50,22 @@
     });
     app.get('/', function(req, res, next) {
       var slicedData;
-      slicedData = data.slice(req.range.offset, req.range.offset + req.range.limit);
+      slicedData = data.slice(
+        req.range.offset,
+        req.range.offset + req.range.limit
+      );
       return res.sendRange(slicedData);
     });
     app.get('/known-length', function(req, res, next) {
       var slicedData;
-      slicedData = data.slice(req.range.offset, req.range.offset + req.range.limit);
+      slicedData = data.slice(
+        req.range.offset,
+        req.range.offset + req.range.limit
+      );
       return res.sendRange(slicedData, data.length);
     });
     return app;
   };
 
   module.exports.data = data;
-
-}).call(this);
+}.call(this));

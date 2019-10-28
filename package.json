@@ -8,6 +8,9 @@
     "extend": "^3.0.0",
     "http-range-parse": "^1.0.0"
   },
+  "scripts": {
+    "test": "mocha test"
+  },
   "license": "mit",
   "devDependencies": {
     "express": "^4.13.3",

@@ -109,6 +109,15 @@
           assert.equal(res.body.page, 2);
         });
     });
+    it('should get valid content/range/length for query with page=0', function() {
+      return test
+        .get('/known-length?limit=2&page=0')
+        .expect(200)
+        .expect(function(res) {
+          assert.deepEqual(res.body.items, data.slice(0, 2));
+          assert.equal(res.body.page, 1);
+        });
+    });
     it('should get valid content/range/length for query with page=1', function() {
       return test
         .get('/known-length?limit=2&page=1')
@@ -127,7 +136,6 @@
           assert.equal(res.body.page, 0);
         });
     });
-
     it('should get valid content/range/length  for zero based query with page=1', function() {
       return testZeroBased
         .get('/known-length?limit=2&page=1')

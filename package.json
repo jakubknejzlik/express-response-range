@@ -13,9 +13,9 @@
   },
   "license": "mit",
   "devDependencies": {
-    "express": "^4.13.3",
+    "express": "^4.18.2",
     "mocha": "^3.0.2",
-    "supertest": "^1.1.0"
+    "supertest": "^6.3.2"
   },
   "repository": {
     "type": "git",

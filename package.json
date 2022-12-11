@@ -13,7 +13,7 @@
   },
   "license": "mit",
   "devDependencies": {
-    "express": "^4.13.3",
+    "express": "^4.17.3",
     "mocha": "^3.0.2",
     "supertest": "^1.1.0"
   },
